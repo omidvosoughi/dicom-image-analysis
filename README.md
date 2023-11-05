@@ -6,8 +6,8 @@ This application provides a simple web interface to upload DICOM images, calcula
 
 Before you begin, ensure you have met the following requirements:
 
-- You have installed Git on your system.
-- You have installed Docker and Docker Compose.
+- You have installed [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) on your system.
+- You have installed [Docker](https://docs.docker.com/engine/install/) and Docker Compose.
 
 ## Project Structure
 
