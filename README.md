@@ -54,7 +54,7 @@ Go to the above link and upload DICOM images using the provided dropzone. The up
 
 ![DICOM image](backend/plots/images.png "DICOM image")
 
-### 4. Unit Testing
+### Unit Testing
 
 The application includes unit tests to verify the correct behavior of backend functionalities. One crucial function tested is `pixel_volume`, which calculates the volume of pixels above a certain threshold in a DICOM image.
 
