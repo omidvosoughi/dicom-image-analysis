@@ -34,7 +34,7 @@ Use 'docker-compose' to build and run both the frontend and backend services.
 sudo docker-compose up --build
 ```
 
-This command will build the images if they don't exist and start the containers. The '--build' option ensures that the latest versions of the applications are built and used.
+This command will build the images if they don't exist and start the containers. The `--build` option ensures that the latest versions of the applications are built and used.
 
 ### 3. Accessing the Application
 
