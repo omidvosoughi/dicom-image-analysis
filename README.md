@@ -48,4 +48,22 @@ Go to the above link and upload DICOM images using the provided dropzone. The up
 
 ![DICOM image](backend/plots/images.png "DICOM image")
 
+### 4. Unit Testing
+
+The application includes unit tests to verify the correct behavior of backend functionalities. One crucial function tested is `pixel_volume`, which calculates the volume of pixels above a certain threshold in a DICOM image.
+
+#### `pixel_volume` Function Test
+
+This test ensures that the `pixel_volume` function correctly computes the volume from a given DICOM file based on the specified threshold. The function reads a DICOM image, normalizes the pixel values, applies a threshold to create a binary mask, and calculates the volume of the selected pixels. The test verifies that the returned volume is within an acceptable margin of error from an expected value, ensuring the function's accuracy and reliability.
+
+The expected outcome of this test is a volume value of approximately 143280.029 when using a specific test DICOM file and threshold value. This provides confidence that the image processing and volume calculation are performed correctly.
+
+#### Running the Tests
+
+To run the unit tests, execute the following command. Replace `your-threshold` with a float number in range of [0.0 1.0]. 
+
+```bash
+python backend/testPixelVolume.py --threshold <your-threshold>
+```
+
 
