@@ -1,0 +1,5 @@
+fastapi[all]
+python-magic
+pydicom
+numpy
+matplotlib
