@@ -22,7 +22,7 @@ To get the application up and running, follow these steps:
 ### 1. Clone the repository
 
 ```bash
-git clone https://your-repository-url.git
+git clone https://github.com/omidvosoughi/dicom-uploader.git
 cd dicom-uploader
 ```
 
