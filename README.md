@@ -56,7 +56,7 @@ The application includes unit tests to verify the correct behavior of backend fu
 
 This test ensures that the `pixel_volume` function correctly computes the volume from a given DICOM file based on the specified threshold. The function reads a DICOM image, normalizes the pixel values, applies a threshold to create a binary mask, and calculates the volume of the selected pixels. The test verifies that the returned volume is within an acceptable margin of error from an expected value, ensuring the function's accuracy and reliability.
 
-The expected outcome of this test is a volume value of approximately 143280.029 when using a specific test DICOM file and threshold value. This provides confidence that the image processing and volume calculation are performed correctly.
+The expected outcome of this test is a volume value of approximately 143280.029 $mm^3$ when using a specific test DICOM file and threshold value. This provides confidence that the image processing and volume calculation are performed correctly.
 
 #### Running the Tests
 
