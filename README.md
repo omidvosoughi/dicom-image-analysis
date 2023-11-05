@@ -73,4 +73,13 @@ pip install -r backend/requirements.txt
 python backend/testPixelVolume.py --threshold <your-threshold>
 ```
 
+### Limitation and Future work
+
+The primary objective of this assignment is focused on the application of image thresholding techniques. In the context of medical imaging and DICOM images, thresholding is often used to highlight regions of interest, like tissues, organs, or anomalies, by excluding the pixel values that do not fall within the range of interest, thus simplifying the image for further analysis or visualization.
+
+The central challenge of this task lies in identifying an optimal threshold to achieve the most accurate segmentation of the image. In the current version of the assignment, the threshold was determined manually through testing. However, automating this process constitutes a potential area for future development. The drawback of basic thresholding is the necessity of approximating the threshold value $t$ by examining the image's histogram. There are, nevertheless, automated methods available that can ascertain the threshold on our behalf. Otsu’s method is a notable example of this, particularly effective when the image's grayscale histogram displays distinct peaks representing the background and the foreground subjects.
+
+Image segmentation methods such as image thresholding can be conceptualized as an optimization challenge, where the critical inquiry centers on devising a strategy to predict the most optimal threshold. A further consideration is whether artificial intelligence techniques such as deep learning could be employed to accurately predict this threshold value.
+
+
 
