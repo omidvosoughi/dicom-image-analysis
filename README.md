@@ -63,6 +63,7 @@ The expected outcome of this test is a volume value of approximately 143280.029 
 To run the unit tests, execute the following command. Replace `<your-threshold>` with a float number in range of [0.0 1.0]. 
 
 ```bash
+pip install -r backend/requirements.txt
 python backend/testPixelVolume.py --threshold <your-threshold>
 ```
 
