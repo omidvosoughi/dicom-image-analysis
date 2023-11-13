@@ -26,7 +26,7 @@ app.add_middleware(
 # Define the directory paths for uploads and plots
 # Use os.makedirs to create these directories if they don't exist.
 UPLOAD_FOLDER = './uploads'
-PLOT_DIRECTORY = "./plots"
+PLOT_DIRECTORY = './plots'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(PLOT_DIRECTORY, exist_ok=True)
 
