@@ -48,12 +48,21 @@ def pixel_volume(file_path, threshold):
     # Normalize the pixel array to be between 0 and 1
     normalized = pixel_array.astype(np.float32) / pixel_array.max()
 
-    # Create a binary mask based on the threshold
-    binary_mask = normalized > threshold
+    # Initialize a selection matrix with the same dimensions as the normalized image
+    # The matrix is filled with zeros and is of type 'float64'
+    selection = np.zeros((normalized.shape[0],normalized.shape[1]), dtype='float64')
 
-    # Apply the binary mask to the normalized pixel data
-    selection = normalized.copy()
-    selection[~binary_mask] = 0
+    # Iterate over each row of the normalized image matrix
+    for row in range(0,(normalized.shape[0]-1)):
+        # Iterate over each column in the current row
+        for col in range(0,(normalized.shape[1]-1)):
+            # Check if the pixel value exceeds the threshold
+            if(normalized[row, col] > threshold):
+                # If the condition is true, set the corresponding pixel in the selection matrix to 1
+                selection[row, col] = 1
+            else:
+                # If the condition is false, set the corresponding pixel in the selection matrix to 0
+                selection[row, col] = 0
 
     # Plot the various DICOM images and histograms
     plot_diagram(pixel_array, normalized, selection)
@@ -79,12 +88,12 @@ def plot_diagram(original_pixel, normalized_pixel, thresholded_pixel):
     axs[0, 1].plot(normalized_bin_edges[0:-1], normalized_histogram)
     axs[0, 1].set_title('Grayscale normalized Histogram')
 
-    axs[1, 0].imshow(thresholded_pixel, cmap='Greys_r')
+    axs[1, 0].imshow(thresholded_pixel, cmap='grey')
     axs[1, 0].set_title('Thresholded image')
 
     thresholded_histogram, thresholded_bin_edges = np.histogram(thresholded_pixel, bins=256, range=(0.0, 1.0))
     axs[1, 1].plot(thresholded_bin_edges[0:-1], thresholded_histogram)
-    axs[1, 1].set_title('Grayscale thresholded Histogram')
+    axs[1, 1].set_title('Binary thresholded Histogram')
 
     # Adjust the layout and save the figure
     fig.tight_layout()
