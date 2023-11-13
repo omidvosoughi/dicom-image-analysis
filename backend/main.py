@@ -49,8 +49,8 @@ def pixel_volume(file_path, threshold):
     normalized = pixel_array.astype(np.float32) / pixel_array.max()
 
     # Initialize a selection matrix with the same dimensions as the normalized image
-    # The matrix is filled with zeros and is of type 'float64'
-    selection = np.zeros((normalized.shape[0],normalized.shape[1]), dtype='float64')
+    # The matrix is filled with zeros
+    selection = np.zeros((normalized.shape[0],normalized.shape[1]))
 
     # Iterate over each row of the normalized image matrix
     for row in range(0,(normalized.shape[0]-1)):
