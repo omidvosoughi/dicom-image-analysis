@@ -48,21 +48,15 @@ def pixel_volume(file_path, threshold):
     # Normalize the pixel array to be between 0 and 1
     normalized = pixel_array.astype(np.float32) / pixel_array.max()
 
-    # Initialize a selection matrix with the same dimensions as the normalized image
-    # The matrix is filled with zeros
-    selection = np.zeros((normalized.shape[0],normalized.shape[1]))
+    # Create a binary mask based on the threshold
+    binary_mask = normalized > threshold
 
-    # Iterate over each row of the normalized image matrix
-    for row in range(0,(normalized.shape[0]-1)):
-        # Iterate over each column in the current row
-        for col in range(0,(normalized.shape[1]-1)):
-            # Check if the pixel value exceeds the threshold
-            if(normalized[row, col] > threshold):
-                # If the condition is true, set the corresponding pixel in the selection matrix to 1
-                selection[row, col] = 1
-            else:
-                # If the condition is false, set the corresponding pixel in the selection matrix to 0
-                selection[row, col] = 0
+    # Apply the binary mask to the normalized pixel data
+    # if binary_mask has a False value at a position, the corresponding pixel in selection is set to 0.
+    # if binary_mask has a True value at a position, the corresponding pixel in selection is set to 1.
+    selection = normalized.copy()
+    selection[~binary_mask] = 0
+    selection[binary_mask] = 1
 
     # Plot the various DICOM images and histograms
     plot_diagram(pixel_array, normalized, selection)
