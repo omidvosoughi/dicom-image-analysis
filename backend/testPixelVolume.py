@@ -9,17 +9,17 @@ class TestPixelVolume(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         parser = argparse.ArgumentParser()
+        parser.add_argument('--dicom', type=str, required=True, help="The name of uploaded DICOM file.")
         parser.add_argument('--threshold', type=float, required=True, help="Threshold for the pixel volume test.")
         args, _ = parser.parse_known_args()
+        cls.dicom = args.dicom
         cls.threshold = args.threshold
 
     def test_pixel_volume(self):
         # Path to the DICOM file for testing
-        file_path = 'test.dcm'
-        cwd = os.getcwd()
-        dicomPath = f"{cwd}/backend/uploads/1-101.dcm"
-        # Threshold value
-        threshold = 0.5051  # You need to adjust this based on what you expect to use
+        dicomPath = f"uploads/{self.dicom}"
+        # # Threshold value
+        # threshold = 0.5051  # You need to adjust this based on what you expect to use
 
         # Call the function under test
         result = pixel_volume(dicomPath, self.threshold)
