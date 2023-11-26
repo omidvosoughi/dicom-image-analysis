@@ -50,7 +50,7 @@ After the containers are up and running, you can access the application in your 
 
 ### 4. Upload DICOM Images
 
-Go to the above link and upload DICOM images using the provided dropzone. The uploaded images will be processed by the backend, and the calculated volume. To highlight the distinctions between the original and thresholded images, a function has been implemented. This function plots both images and saves them into [backend/plots/](backend/plots/), alongside their respective histograms, providing a clear visual representation of the differences, as demonstrated in the following images.
+Go to the above link and upload DICOM images using the provided dropzone (As an example you can use provided DICOM image under `Example_Image/1-101.dcm`). The uploaded images will be processed by the backend, and the calculated volume. To highlight the distinctions between the original and thresholded images, a function has been implemented. This function plots both images and saves them into [backend/plots/](backend/plots/), alongside their respective histograms, providing a clear visual representation of the differences, as demonstrated in the following images.
 
 ![DICOM image](backend/plots/images.png "DICOM image")
 
