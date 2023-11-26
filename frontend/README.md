@@ -1,6 +1,6 @@
 # dicom-uploader
 
-## Project setup
+## Project setup.
 ```
 npm install
 ```
