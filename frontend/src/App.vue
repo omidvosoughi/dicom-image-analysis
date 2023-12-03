@@ -1,6 +1,7 @@
 <template>
   <!-- Main container for the Vue application -->
   <div id="app">
+    
     <!-- Title of the page -->
     <h1 class="display-1" style="text-align: center;">DICOM Image Upload</h1>
 
@@ -16,16 +17,26 @@
 
     <!-- Status alerts for upload feedback -->
     <div class="row">
-      <!-- Alert for showing the name of the uploaded file -->
       <div class="col">
-        <b-alert v-if="uploadedFileName" variant="success" show style="text-align: center; margin: 25px;
-        font-size: larger; font-weight: bold;">Uploaded File: {{ uploadedFileName }}</b-alert>        
-      </div>
-      <!-- Alert for displaying the calculated thresholded pixel volume -->
-      <div class="col">
-        <b-alert v-if="thresholdedPixelVolume" show
-        style="text-align: center; margin: 25px; font-size: larger; font-weight: bolder;">Thresholded Pixel Volume: {{ thresholdedPixelVolume }} mm<sup>3</sup>
+        <!-- Alert for showing the name of the uploaded file -->
+        <div class="row">
+          <div class="col">
+            <b-alert v-if="uploadedFileName" variant="success" show style="text-align: center; margin: 25px;
+            font-size: larger; font-weight: bold;">Uploaded File: {{ uploadedFileName }}</b-alert>
+          </div>
+        </div>
+        <!-- Alert for displaying the calculated thresholded pixel volume -->
+        <div class="row">
+          <div class="col">
+            <b-alert v-if="thresholdedPixelVolume" show
+            style="text-align: center; margin: 25px; font-size: larger; font-weight: bolder;">Thresholded Pixel Volume: {{ thresholdedPixelVolume }} mm<sup>3</sup>
         </b-alert>
+          </div>
+        </div>
+      </div>
+      <!-- Display the generated Plot after processing the uploaded file-->
+      <div class="col">
+        <img :src="image" />
       </div>
     </div>
   </div>
@@ -35,6 +46,7 @@
 // Import the vue2-dropzone component and its default styles
 import vueDropzone from 'vue2-dropzone';
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+import image from "../../backend/plots/images.png";
 
 export default {
   name: 'App',
@@ -54,6 +66,7 @@ export default {
       },
       uploadedFileName: '',  // Variable to store the name of the uploaded file
       thresholdedPixelVolume: '', // Variable to store the calculated volume of thresholded pixels
+      image: null, // Variable to store the generated plot
     };
   },
   methods: {
@@ -67,6 +80,7 @@ export default {
       // Here we update the data properties with the response from the server
       this.uploadedFileName = response.filename; // Update the filename from the server response
       this.thresholdedPixelVolume = response.pixelVolume; // Update the pixel volume from the server response
+      this.image = image; // Update the image to display 
     },
   },
 };

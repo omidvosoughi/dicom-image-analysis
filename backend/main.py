@@ -25,8 +25,8 @@ app.add_middleware(
 
 # Define the directory paths for uploads and plots
 # Use os.makedirs to create these directories if they don't exist.
-UPLOAD_FOLDER = './uploads'
-PLOT_DIRECTORY = './plots'
+UPLOAD_FOLDER = './backend/uploads'
+PLOT_DIRECTORY = './backend/plots'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(PLOT_DIRECTORY, exist_ok=True)
 
@@ -110,7 +110,7 @@ async def upload_dicom_file(file: UploadFile = File(...)):
     # Calculate the pixel volume with a given threshold
     volume = pixel_volume(file_location, 0.5055)
     # Return a JSON response with the status, filename, and calculated pixel volume
-    return JSONResponse(status_code=200, content={"message": "File uploaded successfully", "filename": file.filename, "pixelVolume": f"{volume}"})
+    return JSONResponse(status_code=200, content={"message": "File uploaded successfully", "filename": file.filename, "pixelVolume": f"{volume}", "plotDirectory": "images.png"})
 
 # Run the server using uvicorn if the script is executed directly
 if __name__ == "__main__":
