@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, Form, UploadFile, HTTPException
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import magic
@@ -27,6 +27,7 @@ app.add_middleware(
 # Use os.makedirs to create these directories if they don't exist.
 UPLOAD_FOLDER = './backend/uploads'
 PLOT_DIRECTORY = './backend/plots'
+png_plot_filename = ''
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(PLOT_DIRECTORY, exist_ok=True)
 
@@ -37,7 +38,7 @@ def is_dicom_file(file_path):
     return 'dicom' in file_type
 
 # Function to calculate the volume of pixels above a threshold in a DICOM file
-def pixel_volume(file_path, threshold):
+def pixel_volume(file_path, threshold, png_plot_filename):
     # Read the DICOM file
     dataset = pydicom.dcmread(file_path)
     pixel_array = dataset.pixel_array
@@ -59,7 +60,7 @@ def pixel_volume(file_path, threshold):
     selection[binary_mask] = 1
 
     # Plot the various DICOM images and histograms
-    plot_diagram(pixel_array, normalized, selection)
+    plot_diagram(pixel_array, normalized, selection, png_plot_filename)
 
     # Calculate the volume by summing the non-zero pixels and multiplying by the slice thickness
     volume = sum(np.count_nonzero(selection, axis=0)) * slice_thickness
@@ -67,7 +68,7 @@ def pixel_volume(file_path, threshold):
     return volume
 
 # Function to plot and save diagrams of the DICOM image data
-def plot_diagram(original_pixel, normalized_pixel, thresholded_pixel):
+def plot_diagram(original_pixel, normalized_pixel, thresholded_pixel, png_plot_filename):
     # Set up a 2x2 grid of plots
     fig, axs = plt.subplots(2, 2)
 
@@ -91,15 +92,17 @@ def plot_diagram(original_pixel, normalized_pixel, thresholded_pixel):
 
     # Adjust the layout and save the figure
     fig.tight_layout()
-    plt.savefig(f'{PLOT_DIRECTORY}/images.png')
+    plt.savefig(f'{PLOT_DIRECTORY}/{png_plot_filename}')
+    plt.close()
 
 # Define the FastAPI endpoint for uploading DICOM files
 @app.post("/upload")
-async def upload_dicom_file(file: UploadFile = File(...)):
+async def upload_dicom_file(file: UploadFile = File(...), threshold: float = Form(...)):
     # Save the uploaded file to the uploads directory
     file_location = os.path.join(UPLOAD_FOLDER, file.filename)
     with open(file_location, "wb+") as file_object:
         file_object.write(file.file.read())
+        
 
     # Verify that the file is a DICOM file
     if not is_dicom_file(file_location):
@@ -107,10 +110,22 @@ async def upload_dicom_file(file: UploadFile = File(...)):
         os.remove(file_location)
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="The uploaded file is not a valid DICOM file.")
     
+    ths = 0.5055
+    if ths!= threshold:
+        ths=threshold
+
+    png_plot_filename = file.filename.split('.')[0] + f'_{threshold}' + ".png"
+    
     # Calculate the pixel volume with a given threshold
-    volume = pixel_volume(file_location, 0.5055)
+    volume = pixel_volume(file_location, ths, png_plot_filename)
     # Return a JSON response with the status, filename, and calculated pixel volume
-    return JSONResponse(status_code=200, content={"message": "File uploaded successfully", "filename": file.filename, "pixelVolume": f"{volume}", "plotDirectory": "images.png"})
+    return JSONResponse(status_code=200, content={"message": "File uploaded successfully", "filename": file.filename, "pixelVolume": f"{volume}", "plotDirectory": png_plot_filename})
+
+
+@app.get("/get-image/{plotDirectory}")
+async def get_image(plotDirectory: str):
+    image_path = f"{PLOT_DIRECTORY}/{plotDirectory}"
+    return FileResponse(image_path)
 
 # Run the server using uvicorn if the script is executed directly
 if __name__ == "__main__":
