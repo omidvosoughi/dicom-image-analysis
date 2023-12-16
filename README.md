@@ -35,7 +35,7 @@ Use 'docker-compose' to build and run both the frontend and backend services.
 sudo docker-compose up --build
 ```
 
-- On Windows:
+- On Windows: First make sure to start your Docker Desktop, then run below command
 ```bash
 docker-compose up --build
 ```
